@@ -5,6 +5,7 @@
 #include "../utilities/Ray.hpp"
 #include "../utilities/ShadeInfo.hpp"
 #include "../utilities/Constants.hpp"
+#include "../lights/Light.hpp"
 
 // no need to initialize ViewPlane, base constructor is already called
 World::World() : bg_color(black), camera_ptr(nullptr), sampler_ptr(nullptr) {}
@@ -16,6 +17,14 @@ World::~World() {
     geometry.clear();
     delete camera_ptr;
     delete sampler_ptr;
+    for (Light* light : lights) {
+        delete light;
+    }
+    lights.clear();
+}
+
+void World::add_light(Light *light_ptr) {
+    lights.push_back(light_ptr);
 }
 
 void World::add_geometry(Geometry *geom_ptr) {
