@@ -1,6 +1,8 @@
-#include "BVHNode.hpp"
-#include <algorithm> // For std::sort
-#include <cstdlib>   // For rand()
+#include "bvh.hpp"
+#include "../utilities/ShadeInfo.hpp"
+
+#include <algorithm> // sorting
+#include <cstdlib> // rand generator
 
 // for sorting objects by bounding box
 bool compare_x(Geometry* a, Geometry* b) {
@@ -48,7 +50,7 @@ BVHNode::BVHNode(std::vector<Geometry*>& objects, size_t start, size_t end) {
             is_sorted = compare_z(objects[start], objects[start + 1]);
         }
 
-        // Assign left and right based on the check above
+        // assign left and right based on comparison
         if (is_sorted) {
             left = objects[start];
             right = objects[start + 1];
@@ -58,8 +60,8 @@ BVHNode::BVHNode(std::vector<Geometry*>& objects, size_t start, size_t end) {
         }
     } 
     else {
-        // Recursive Step: We have more than 2 objects.
-        // Sort the objects using the correct helper function
+        // when objects > 2
+        // use helper functions for sorting
         if (axis == 0) {
             std::sort(objects.begin() + start, objects.begin() + end, compare_x);
         } else if (axis == 1) {
@@ -68,13 +70,14 @@ BVHNode::BVHNode(std::vector<Geometry*>& objects, size_t start, size_t end) {
             std::sort(objects.begin() + start, objects.begin() + end, compare_z);
         }
         
-        // Find the middle and split!
+        // find the midpoint and split recursively
         size_t mid = start + object_span / 2;
         left = new BVHNode(objects, start, mid);
         right = new BVHNode(objects, mid, end);
     }
 
-    // Combine the bounding boxes of the left and right children
+    // combine left and right bounding boxes to get bounding
+    // box for this node
     box = left->getBBox();
     box.extend(right->getBBox()); 
 }
@@ -82,12 +85,12 @@ BVHNode::BVHNode(std::vector<Geometry*>& objects, size_t start, size_t end) {
 bool BVHNode::hit(const Ray& ray, float& t, ShadeInfo& sinfo) const {
     float t_enter, t_exit;
     
-    // 1. Did the ray even hit this giant bounding box?
+    // check if ray hit bounding box
     if (!box.hit(ray, t_enter, t_exit)) {
-        return false; // Missed completely! Skip everything inside.
+        return false; // ignore if miss
     }
 
-    // 2. It hit the box! Now check the left and right children.
+    // hit occurred
     float t_left, t_right;
     ShadeInfo sinfo_left = sinfo;   
     ShadeInfo sinfo_right = sinfo;  
@@ -95,7 +98,7 @@ bool BVHNode::hit(const Ray& ray, float& t, ShadeInfo& sinfo) const {
     bool hit_left = left->hit(ray, t_left, sinfo_left);
     bool hit_right = right->hit(ray, t_right, sinfo_right);
 
-    // 3. Find out which hit was closer to the camera
+    // left hit vs right hit
     if (hit_left && hit_right) {
         if (t_left < t_right) {
             t = t_left;
@@ -115,5 +118,5 @@ bool BVHNode::hit(const Ray& ray, float& t, ShadeInfo& sinfo) const {
         return true;
     }
 
-    return false; // Hit the bounding box, but missed the actual geometry inside
+    return false; // hit empty space inside bounding box
 }
