@@ -22,6 +22,7 @@ class Ray;
 class Sampler;
 class ShadeInfo;
 class Light;
+class Tracer;
 
 class World {
 public:
@@ -31,6 +32,9 @@ public:
   Camera *camera_ptr;
   Sampler *sampler_ptr;
   std::vector<Light *> lights;
+  Tracer* tracer_ptr;
+  Geometry* bvh_ptr;
+  bool use_acceleration;
 
 public:
   // Constructors.

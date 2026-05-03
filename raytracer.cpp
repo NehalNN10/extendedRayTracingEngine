@@ -12,6 +12,8 @@
 #include "world/World.hpp"
 #include "world/ViewPlane.hpp"
 
+#include "tracers/Tracer.hpp"
+
 int main(int argc, char **argv) {
   World world;
   world.build();
@@ -28,14 +30,9 @@ int main(int argc, char **argv) {
       RGBColor pixel_color(0);
       rays = sampler->get_rays(x, y);
       for (const auto &ray : rays) {
-        float weight = ray.w; // ray weight for the pixel.
-        ShadeInfo sinfo = world.hit_objects(ray);
-        if (sinfo.hit) {
-          pixel_color += weight * sinfo.material_ptr->shade(sinfo);
-        }
-	else {
-          pixel_color += weight * world.bg_color;
-        }
+        float weight = ray.w; 
+        // Just ask the tracer for the color!
+        pixel_color += weight * world.tracer_ptr->trace_ray(ray);
       }
       // Save color to image.
       image.set_pixel(x, y, pixel_color);
