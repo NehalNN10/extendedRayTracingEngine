@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS 440: Extended Ray Tracing Engine</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background-color: #121212;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        h1, h2, h3 { color: #ffffff; border-bottom: 1px solid #333; padding-bottom: 0.5rem; }
+        h1 { font-size: 2.5rem; color: #4facfe; border-bottom: 2px solid #4facfe; }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            margin: 1rem 0;
+        }
+        .caption { font-size: 0.9rem; color: #888; font-style: italic; margin-bottom: 2rem; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: #1e1e1e;
+        }
+        th, td { padding: 12px; border: 1px solid #333; text-align: left; }
+        th { background-color: #2c2c2c; color: #4facfe; }
+        a { color: #4facfe; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .team { background: #1e1e1e; padding: 15px; border-radius: 8px; border-left: 4px solid #4facfe; }
+    </style>
+</head>
+<body>
+
+    <h1>CS 440 Project 2: Extended Ray Tracing Engine</h1>
+    
+    <div class="team">
+        <strong>Team Members:</strong> Nehal Naeem Haji, Raahim Hashmi, Hania Kashif
+    </div>
+
+    <h2>Scene Overview</h2>
+    <p>Our final showcase is an isometric "Neon Chess" scene featuring 32 high-resolution Stanford Bunny models arranged on an 8x8 chessboard. Because each bunny consists of roughly 69,000 triangles, the scene contains <strong>over 2.2 million primitives</strong>.</p>
+    <p>To capture the scene perfectly at 1920x1080 without aspect-ratio distortion, we implemented a custom "shift lens" camera technique by manipulating the physical Y-bounds of our viewplane. The scene is illuminated by a complex 5-point lighting setup, featuring standard key/fill/rim lights, paired with deep red and blue neon point lights on the X-axis to showcase the engine's handling of specular highlights and glossy reflections.</p>
+
+    <h3>High-Quality Render</h3>
+    <!-- Make sure your folder is exactly 'images' and file is exactly 'high_quality_render.png' -->
+    <img src="images/high_quality_render.png" alt="High Quality Neon Chess Render">
+    <div class="caption">Resolution: 1920x1080</div>
+
+    <h3>Low-Quality Render</h3>
+    <img src="images/low_quality_render.png" alt="Low Quality Render">
+    <div class="caption">Resolution: 480x360</div>
+
+    <h2>Implementation Features</h2>
+    <ul>
+        <li><strong>Homework 5 Base:</strong> Spheres, Planes, Triangles, Basic Cosine Shading.</li>
+        <li><strong>Acceleration:</strong> Bounding Volume Hierarchy (BVH) for optimized spatial partitioning.</li>
+        <li><strong>Materials (BRDFs):</strong> Diffuse (Matte), Specular Mirror (Reflective), and Glossy Plastic (Phong).</li>
+        <li><strong>Lighting:</strong> Point lights, Directional lights, and multi-colored lighting arrays.</li>
+        <li><strong>Tracers:</strong> Basic ray casting and secondary Shadow rays with acne-prevention offsets.</li>
+        <li><strong>Sampling:</strong> Jittered sampling for anti-aliasing and Simple sampling for fast rendering.</li>
+        <li><strong>Camera:</strong> Perspective viewing with wide-angle and shift-lens capabilities.</li>
+    </ul>
+
+    <h2>Acceleration Analysis</h2>
+    <p>We implemented a Bounding Volume Hierarchy (BVH) to speed up rendering. Without spatial partitioning, calculating intersections for 2.2 million triangles per pixel would make rendering practically impossible. Below is the performance comparison for our showcase scene.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Metric</th>
+                <th>Without BVH (Brute Force)</th>
+                <th>With BVH</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Render Time</strong></td>
+                <td>Estimated 48+ Hours</td>
+                <td>~2.5 Minutes</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Uncomment this if you have a BVH comparison image to show -->
+    <!-- 
+    <h3>BVH Visualizer</h3>
+    <img src="images/bvh_comparison.png" alt="BVH Bounding Boxes"> 
+    -->
+
+    <h2>Build Details</h2>
+    <p>The following <code>World::build</code> functions generate the images seen on this page:</p>
+    <ul>
+        <li><code>buildBunny.cpp</code> - Generates the High-Quality "Neon Chess" showcase render.</li>
+        <li><code>buildBVHTest.cpp</code> - Generates the Acceleration comparison image.</li>
+    </ul>
+
+    <h2>Team Contributions</h2>
+    <ul>
+        <li><strong>Nehal Naeem Haji:</strong> Implemented the BVH Acceleration structure and the Basic/Shadow Tracers.</li>
+        <li><strong>Raahim Hashmi:</strong> Implemented the BRDFs and Material hierarchy.</li>
+        <li><strong>Hania Kashif:</strong> Implemented the Light hierarchy, Anti-aliasing Samplers, and designed the final scene.</li>
+    </ul>
+
+    <h2>References</h2>
+    <ul>
+        <li><a href="http://graphics.stanford.edu/data/3Dscanrep/" target="_blank">The Stanford 3D Scanning Repository (Stanford Bunny)</a></li>
+        <li><a href="https://pbr-book.org/" target="_blank">Physically Based Rendering: From Theory to Implementation (Pharr, Jakob, Humphreys)</a></li>
+    </ul>
+
+</body>
+</html>
