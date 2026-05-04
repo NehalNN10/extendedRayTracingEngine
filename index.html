@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS 440: Extended Ray Tracing Engine</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background-color: #121212;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        h1, h2, h3 { color: #ffffff; border-bottom: 1px solid #333; padding-bottom: 0.5rem; margin-top: 2rem; }
+        h1 { font-size: 2.5rem; color: #4facfe; border-bottom: 2px solid #4facfe; }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            margin: 1rem 0;
+            border: 1px solid #333;
+        }
+        .caption { font-size: 0.9rem; color: #888; font-style: italic; margin-bottom: 2rem; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: #1e1e1e;
+        }
+        th, td { padding: 12px; border: 1px solid #333; text-align: left; }
+        th { background-color: #2c2c2c; color: #4facfe; }
+        a { color: #4facfe; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .team { background: #1e1e1e; padding: 15px; border-radius: 8px; border-left: 4px solid #4facfe; margin-bottom: 2rem; }
+        .highlight { color: #4facfe; font-weight: bold; }
+        code { background: #2a2a2a; padding: 2px 6px; border-radius: 4px; color: #ff9d00; }
+    </style>
+</head>
+<body>
+
+    <h1>CS 440 Project 2: Extended Ray Tracing Engine</h1>
+    
+    <div class="team">
+        <strong>Team Members:</strong> Nehal Naeem Haji, Raahim Hashmi, Hania Kashif
+    </div>
+
+    <h2>Scene Overview</h2>
+    <p>Our final showcase is a Neon Bunny Chess scene with 32 high-resolution Stanford Bunny models arranged on an 8x8 chessboard tile system. Because each bunny consists of roughly 69,000 triangles, the scene contains <span class="highlight">over 2.2 million primitives</span>, exceeding the 1-million primitive requirement.</p>
+    <p>The scene is illuminated by a 5-point lighting setup: standard key/fill/rim lights, along with deep red and blue neon point lights on the X-axis to show specular highlights and glossy reflections on different BRDFs.</p>
+
+    <h3>High-Quality Render</h3>
+    <!-- Ensure your image is uploaded to images/high_quality_render.png -->
+    <img src="images/high_quality_render.png" alt="High Quality Neon Chess Render">
+    <div class="caption">Resolution: 1920x1920 | Trace Time: ~7 Minutes (with BVH)</div>
+
+    <h3>Low-Quality Render</h3>
+    <!-- Ensure your image is uploaded to images/low_quality_render.png -->
+    <img src="images/low_quality_render.png" alt="Low Quality Render">
+    <div class="caption">Resolution: 480x480 | Trace Time: ~5 minutes (with BVH)</div>
+
+    <h3>High-Resolution Sampling Comparison</h3>
+    <p>Compare the standard high-resolution render against the jittered sampling approach. Jittered sampling reduces aliasing artifacts through randomized pixel offset patterns, resulting in smoother edges and improved anti-aliasing quality.</p>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0;">
+        <div>
+            <img src="images/high_quality_render.png" alt="High Quality Standard Render">
+            <div class="caption">Standard Render | Resolution: 1920x1920 | Trace Time: ~7 Minutes</div>
+        </div>
+        <div>
+            <img src="images/scene_jitter.png" alt="Jittered Sampling Render">
+            <div class="caption">Jittered Sampling | Resolution: 1920x1920 | Demonstrates anti-aliasing benefits | Trace Time: 37 Minutes</div>
+        </div>
+    </div>
+
+    <h2>Implementation Features</h2>
+    <ul>
+        <li><strong>Homework 5 Base:</strong> Spheres, Planes, Triangles, Basic Cosine Shading.</li>
+        <li><strong>Acceleration:</strong> Bounding Volume Hierarchy (BVH) for optimized spatial partitioning and intersection culling.</li>
+        <li><strong>Materials (BRDFs):</strong> Diffuse (Matte), Specular Mirror (Reflective), and Glossy Plastic (Phong).</li>
+        <li><strong>Lighting:</strong> Point lights, Directional lights, and multi-colored lighting arrays.</li>
+        <li><strong>Tracers:</strong> Basic ray casting and secondary Shadow rays.</li>
+        <li><strong>Sampling:</strong> Jittered sampling for anti-aliasing and Simple sampling for fast rendering.</li>
+    </ul>
+
+    <h2>Acceleration Analysis</h2>
+    <p>We implemented a Bounding Volume Hierarchy (BVH) to speed up rendering. Without spatial partitioning, calculating intersections for 2.2 million triangles per pixel makes rendering practically impossible on a standard CPU. Below is the performance comparison for our showcase scene.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Metric</th>
+                <th>Without BVH (Brute Force)</th>
+                <th>With BVH</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Render Time (1920x1920)</strong></td>
+                <td>TBD</td>
+                <td>~7 Minutes</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Acceleration Usage Flag</h3>
+    <p>As per the project requirements, our engine supports toggling the acceleration structure on or off. To render without the BVH, open <code>buildBunny.cpp</code> and set the boolean flag <code>use_acceleration = false;</code> at the end of the <code>World::build()</code> function.</p>
+
+    <h2>Build Details</h2>
+    <p>The following <code>World::build</code> functions generate the images seen on this page:</p>
+    <ul>
+        <li><code>buildBunny.cpp</code> - Generates the High-Quality and Low-Quality Neon Bunny Chess showcase renders.</li>
+    </ul>
+
+    <h2>Team Contributions</h2>
+    <ul>
+        <li><strong>Nehal Naeem Haji:</strong> Implemented the BVH Acceleration structure and Scene Testing and Website Development.</li>
+        <li><strong>Raahim Hashmi:</strong> Implemented the Light hierarchy, Anti-aliasing Samplers, and designed the final scene and Basic/Shadow Tracers..</li>
+        <li><strong>Hania Kashif:</strong> Implemented the BRDFs and Material hierarchy.</li>
+    </ul>
+
+    <h2>References & Assets</h2>
+    <ul>
+        <li><a href="http://graphics.stanford.edu/data/3Dscanrep/" target="_blank">The Stanford 3D Scanning Repository (Stanford Bunny .ply)</a></li>
+        <li><a href="https://github.com/hadryansalles/ray-tracing-from-the-ground-up" target="_blank">@hadryansalles/ray-tracing-from-the-ground-up — A C++ implementation of ray tracing algorithms from Kevin Suffern's "Ray Tracing from the Ground Up" book. We used it to structure our files accordingly.</a></li>
+        <li>
+            GitHub Copilot was used for static analysis, debugging, and generating parser code.
+        </li>
+    </ul>
+
+</body>
+</html>

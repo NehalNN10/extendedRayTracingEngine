@@ -1,5 +1,5 @@
 .vscode/
 *.exe
-*.png
 obj/
 raytracer.exe
+raytracer.exe.dSYM/

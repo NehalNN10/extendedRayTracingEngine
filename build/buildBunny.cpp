@@ -101,5 +101,5 @@ void World::build(void) {
     // BVH
     std::cout << "Building BVH for massive scene...\n";
     bvh_ptr = new BVHNode(geometry, 0, geometry.size());
-    use_acceleration = true; 
+    use_acceleration = true;
 }

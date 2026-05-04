@@ -11,12 +11,12 @@ To capture the scene perfectly at 1920x1080 without aspect-ratio distortion, we 
 
 ### High-Quality Render
 <!-- Upload your final 1920x1080 render to an 'images' folder and uncomment the line below -->
-<!-- ![High Quality Render](images/high_quality_render.png) -->
-*Resolution: 1920x1080*
+![High Quality Render](images/high_quality_render.png)
+*Resolution: 1920x1920*
 
 ### Low-Quality Render
 <!-- Upload your fast 480x360 render to an 'images' folder and uncomment the line below -->
-<!-- ![Low Quality Render](images/low_quality_render.png) -->
+![Low Quality Render](images/low_quality_render.png)
 *Resolution: 480x360*
 
 ---
@@ -38,7 +38,7 @@ We implemented a Bounding Volume Hierarchy (BVH) to speed up rendering. Without 
 
 | Metric | Without BVH (Brute Force) | With BVH |
 | :--- | :--- | :--- |
-| **Render Time** | Estimated 48+ Hours | ~2.5 Minutes |
+| **Render Time** | 4 Hours | ~5 Minutes |
 
 <!-- Upload your BVH comparison image if you have one, and uncomment below -->
 <!-- ![BVH Render](images/bvh_comparison.png) -->
