@@ -15,11 +15,9 @@ class SpotLight : public PointLight
         SpotLight();
         SpotLight(const Point3D& pos, const RGBColor& col, double att_const, double lin, double quad, const Vector3D& dir, double cutoff, double exp);
 
-        // Copy constructor and assignment operator.
         SpotLight(const SpotLight &object) = default;
         SpotLight &operator=(const SpotLight &rhs) = default;
 
-        // Destructor.
         ~SpotLight() = default;
 
         std::string to_string() const override;
