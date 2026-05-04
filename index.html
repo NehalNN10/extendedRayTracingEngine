@@ -53,14 +53,12 @@
     <p>The scene is illuminated by a 5-point lighting setup: standard key/fill/rim lights, along with deep red and blue neon point lights on the X-axis to show specular highlights and glossy reflections on different BRDFs.</p>
 
     <h3>High-Quality Render</h3>
-    <!-- Ensure your image is uploaded to images/high_quality_render.png -->
     <img src="images/high_quality_render.png" alt="High Quality Neon Chess Render">
     <div class="caption">Resolution: 1920x1920 | Trace Time: ~7 Minutes (with BVH)</div>
 
     <h3>Low-Quality Render</h3>
-    <!-- Ensure your image is uploaded to images/low_quality_render.png -->
     <img src="images/low_quality_render.png" alt="Low Quality Render">
-    <div class="caption">Resolution: 480x480 | Trace Time: ~5 minutes (with BVH)</div>
+    <div class="caption">Resolution: 480x480 | Trace Time: 85 seconds (with BVH)</div>
 
     <h3>High-Resolution Sampling Comparison</h3>
     <p>Compare the standard high-resolution render against the jittered sampling approach. Jittered sampling reduces aliasing artifacts through randomized pixel offset patterns, resulting in smoother edges and improved anti-aliasing quality.</p>
@@ -102,6 +100,11 @@
                 <td><strong>Render Time (1920x1920)</strong></td>
                 <td>TBD</td>
                 <td>~7 Minutes</td>
+            </tr>
+            <tr>
+                <td><strong>Render Time (20x20)</strong></td>
+                <td>~10 minutes</td>
+                <td>79 seconds</td>
             </tr>
         </tbody>
     </table>
