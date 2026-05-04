@@ -28,6 +28,8 @@ class World {
 public:
   ViewPlane vplane;
   int max_depth;
+  RGBColor ambient_color;
+  float ambient_intensity;
   RGBColor bg_color;
   std::vector<Geometry *> geometry;
   Camera *camera_ptr;

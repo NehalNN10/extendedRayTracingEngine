@@ -10,9 +10,9 @@
 #include "../acceleration/bvh.hpp"
 
 // no need to initialize ViewPlane, base constructor is already called
-World::World() : max_depth(5), bg_color(black), camera_ptr(nullptr), sampler_ptr(nullptr), tracer_ptr(nullptr), bvh_ptr(nullptr), use_acceleration(false) {}
+World::World() : max_depth(5), ambient_color(white), ambient_intensity(0.2f), bg_color(black), camera_ptr(nullptr), sampler_ptr(nullptr), tracer_ptr(nullptr), bvh_ptr(nullptr), use_acceleration(false) {}
 
-World::World(ViewPlane vp, int md, RGBColor bg, Camera *c_ptr, Sampler *s_ptr, Tracer* t_ptr, Geometry* bvh, bool accel) : vplane(vp), max_depth(md), bg_color(bg), camera_ptr(c_ptr), sampler_ptr(s_ptr), tracer_ptr(t_ptr), bvh_ptr(bvh), use_acceleration(accel) {}
+World::World(ViewPlane vp, int md, RGBColor bg, Camera *c_ptr, Sampler *s_ptr, Tracer* t_ptr, Geometry* bvh, bool accel) : vplane(vp), max_depth(md), ambient_color(white), ambient_intensity(0.2f), bg_color(bg), camera_ptr(c_ptr), sampler_ptr(s_ptr), tracer_ptr(t_ptr), bvh_ptr(bvh), use_acceleration(accel) {}
 
 World::~World() {
     for (Geometry* geom : geometry) {
@@ -49,6 +49,11 @@ ShadeInfo World::hit_objects(const Ray &ray) const
     {
         ShadeInfo bvh_hit_info(*this);
         bool hit = bvh_ptr->hit(ray, bvh_hit_info.t, bvh_hit_info);
+        bvh_hit_info.hit = hit;
+        if (hit) 
+        {
+            bvh_hit_info.ray = ray;
+        }
         return bvh_hit_info;
     }
     ShadeInfo sr(*this);

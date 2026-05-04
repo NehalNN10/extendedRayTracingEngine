@@ -26,6 +26,7 @@ Vector3D SpotLight::get_direction_axis() const
 void SpotLight::set_direction_axis(const Vector3D& dir) 
 {
     direction_axis = dir;
+    direction_axis.normalize();
 }
 
 double SpotLight::get_cutoff_angle() const 
@@ -53,7 +54,7 @@ double SpotLight::get_attenuation(const Point3D& point) const
     double distance = get_distance(point);
     double distance_attenuation = 1.0 / (constant + linear * distance + quadratic * distance * distance);
 
-    Vector3D light_dir = (position - point);
+    Vector3D light_dir = (point - position);
     light_dir.normalize();
 
     double dot_product = light_dir * direction_axis;

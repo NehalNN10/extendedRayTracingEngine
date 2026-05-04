@@ -41,8 +41,8 @@ RGBColor Phong::shade(const ShadeInfo& sinfo) const {
     wo.normalize();
     
     Vector3D wi_dummy(0.0f);
-    L += ambient_brdf->f(sinfo, wo, wi_dummy);
-    
+    L += ambient_brdf->rho(sinfo, wo) * sinfo.w->ambient_color * sinfo.w->ambient_intensity;
+
     if (sinfo.w && sinfo.w->lights.size() > 0) {
         for (const auto& light_ptr : sinfo.w->lights) {
             Vector3D light_dir = light_ptr->get_direction(sinfo.hit_point);
@@ -61,7 +61,7 @@ RGBColor Phong::shade(const ShadeInfo& sinfo) const {
                     continue;
                 }
 
-                RGBColor light_color = light_ptr->get_color();
+                RGBColor light_color = light_ptr->get_color() * light_ptr->get_intensity();
                 double attenuation = light_ptr->get_attenuation(sinfo.hit_point);
                 
                 RGBColor diffuse_contribution = diffuse_brdf->f(sinfo, wo, light_dir);
