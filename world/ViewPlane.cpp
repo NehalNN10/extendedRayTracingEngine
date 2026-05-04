@@ -5,7 +5,7 @@ ViewPlane::ViewPlane() :
     bottom_right(320, -240, 0), 
     normal(0, 0, 1), 
     hres(640), 
-    vres(480) 
+    vres(480)
 {}
 
 int ViewPlane::get_hres() const { 

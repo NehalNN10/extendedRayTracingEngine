@@ -41,5 +41,5 @@ class PointLight : public Light
         Vector3D get_direction(const Point3D& point) const override;
         double get_distance(const Point3D& point) const override;
 
-        double get_attenuation(const Point3D& point) const;
+        virtual double get_attenuation(const Point3D& point) const;
 };

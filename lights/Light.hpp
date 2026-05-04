@@ -36,4 +36,5 @@ public:
 
   virtual Vector3D get_direction(const Point3D& point) const = 0; // direction from a point to the light
   virtual double get_distance(const Point3D& point) const = 0; // distance from a point to the light
+  virtual double get_attenuation(const Point3D& point) const = 0; // attenuation at a point
 };

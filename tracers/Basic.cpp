@@ -3,8 +3,9 @@
 #include "../utilities/ShadeInfo.hpp"
 #include "../materials/Material.hpp"
 
-RGBColor Basic::trace_ray(const Ray& ray) const {
+RGBColor Basic::trace_ray(const Ray& ray, int depth) const {
     ShadeInfo sr = world_ptr->hit_objects(ray);
+    sr.depth = depth;
     
     if (sr.hit) {
         return sr.material_ptr->shade(sr);

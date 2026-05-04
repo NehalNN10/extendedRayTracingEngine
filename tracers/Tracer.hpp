@@ -14,6 +14,6 @@ public:
     Tracer(World* w_ptr) : world_ptr(w_ptr) {}
     virtual ~Tracer() = default;
 
-    // trace ray and return color
-    virtual RGBColor trace_ray(const Ray& ray) const = 0;
+    // trace ray and return color; depth defaults to primary ray
+    virtual RGBColor trace_ray(const Ray& ray, int depth = 0) const = 0;
 };

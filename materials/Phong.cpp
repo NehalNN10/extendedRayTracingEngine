@@ -2,6 +2,7 @@
 #include "../utilities/ShadeInfo.hpp"
 #include "../utilities/Vector3D.hpp"
 #include "../utilities/Constants.hpp"
+#include "../utilities/Ray.hpp"
 #include "../world/World.hpp"
 #include "../lights/Light.hpp"
 
@@ -50,10 +51,18 @@ RGBColor Phong::shade(const ShadeInfo& sinfo) const {
             float n_dot_l = sinfo.normal * light_dir;
             
             if (n_dot_l > 0.0f) {
+                Point3D shadow_origin = sinfo.hit_point + kEpsilon * sinfo.normal;
+                Ray shadow_ray(shadow_origin, light_dir);
+                ShadeInfo shadow_info = sinfo.w->hit_objects(shadow_ray);
+
+                double light_distance = light_ptr->get_distance(sinfo.hit_point);
+                bool in_shadow = shadow_info.hit && shadow_info.t > kEpsilon && shadow_info.t < light_distance;
+                if (in_shadow) {
+                    continue;
+                }
+
                 RGBColor light_color = light_ptr->get_color();
-                
-                float distance = light_ptr->get_distance(sinfo.hit_point);
-                float attenuation = 1.0f / (distance * distance);
+                double attenuation = light_ptr->get_attenuation(sinfo.hit_point);
                 
                 RGBColor diffuse_contribution = diffuse_brdf->f(sinfo, wo, light_dir);
                 RGBColor specular_contribution = specular_brdf->f(sinfo, wo, light_dir);

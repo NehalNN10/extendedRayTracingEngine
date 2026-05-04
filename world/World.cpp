@@ -6,9 +6,13 @@
 #include "../utilities/ShadeInfo.hpp"
 #include "../utilities/Constants.hpp"
 #include "../lights/Light.hpp"
+#include "../tracers/Tracer.hpp"
+#include "../acceleration/bvh.hpp"
 
 // no need to initialize ViewPlane, base constructor is already called
-World::World() : bg_color(black), camera_ptr(nullptr), sampler_ptr(nullptr) {}
+World::World() : max_depth(5), bg_color(black), camera_ptr(nullptr), sampler_ptr(nullptr), tracer_ptr(nullptr), bvh_ptr(nullptr), use_acceleration(false) {}
+
+World::World(ViewPlane vp, int md, RGBColor bg, Camera *c_ptr, Sampler *s_ptr, Tracer* t_ptr, Geometry* bvh, bool accel) : vplane(vp), max_depth(md), bg_color(bg), camera_ptr(c_ptr), sampler_ptr(s_ptr), tracer_ptr(t_ptr), bvh_ptr(bvh), use_acceleration(accel) {}
 
 World::~World() {
     for (Geometry* geom : geometry) {
@@ -17,6 +21,8 @@ World::~World() {
     geometry.clear();
     delete camera_ptr;
     delete sampler_ptr;
+    delete tracer_ptr;
+    delete bvh_ptr;
     for (Light* light : lights) {
         delete light;
     }
@@ -35,7 +41,16 @@ void World::set_camera(Camera *c_ptr) {
     camera_ptr = c_ptr;
 }
 
-ShadeInfo World::hit_objects(const Ray &ray) {
+ShadeInfo World::hit_objects(const Ray &ray) const 
+{
+    
+    float weight = ray.w;
+    if (use_acceleration && bvh_ptr) // we can just build the BVH in build() and assume it exists here
+    {
+        ShadeInfo bvh_hit_info(*this);
+        bool hit = bvh_ptr->hit(ray, bvh_hit_info.t, bvh_hit_info);
+        return bvh_hit_info;
+    }
     ShadeInfo sr(*this);
     float t; // distance to first intersection
     float tmin = kHugeValue; // track closest hit

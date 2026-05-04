@@ -13,6 +13,8 @@
 class Simple : public Sampler {
 protected:
   // add members to cache values to avoid recomputation in get_rays().
+  float pixel_size_x;
+  float pixel_size_y;
 
 public:
   // Constructors.
