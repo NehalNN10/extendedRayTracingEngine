@@ -49,8 +49,8 @@
     </div>
 
     <h2>Scene Overview</h2>
-    <p>Our final showcase is an isometric "Neon Chess" scene featuring 32 high-resolution Stanford Bunny models arranged on an 8x8 chessboard tile system. Because each bunny consists of roughly 69,000 triangles, the scene contains <span class="highlight">over 2.2 million primitives</span>, easily exceeding the 1-million primitive requirement.</p>
-    <p>To capture the scene perfectly at 1920x1080 without aspect-ratio distortion, we implemented a custom "shift lens" camera technique by manipulating the physical Y-bounds of our viewplane window. The scene is illuminated by a complex 5-point lighting setup: standard key/fill/rim lights, paired with deep red and blue neon point lights on the X-axis to showcase the engine's handling of specular highlights and glossy reflections on different BRDFs.</p>
+    <p>Our final showcase is a Neon Bunny Chess scene with 32 high-resolution Stanford Bunny models arranged on an 8x8 chessboard tile system. Because each bunny consists of roughly 69,000 triangles, the scene contains <span class="highlight">over 2.2 million primitives</span>, exceeding the 1-million primitive requirement.</p>
+    <p>The scene is illuminated by a 5-point lighting setup: standard key/fill/rim lights, along with deep red and blue neon point lights on the X-axis to show specular highlights and glossy reflections on different BRDFs.</p>
 
     <h3>High-Quality Render</h3>
     <!-- Ensure your image is uploaded to images/high_quality_render.png -->
@@ -69,8 +69,7 @@
         <li><strong>Materials (BRDFs):</strong> Diffuse (Matte), Specular Mirror (Reflective), and Glossy Plastic (Phong).</li>
         <li><strong>Lighting:</strong> Point lights, Directional lights, and multi-colored lighting arrays.</li>
         <li><strong>Tracers:</strong> Basic ray casting and secondary Shadow rays.</li>
-        <li><strong>Sampling:</strong> Jittered sampling for anti-aliasing and Simple sampling for fast 1x rendering.</li>
-        <li><strong>Camera Features:</strong> Perspective viewing with wide-angle and shift-lens frustum capabilities.</li>
+        <li><strong>Sampling:</strong> Jittered sampling for anti-aliasing and Simple sampling for fast rendering.</li>
     </ul>
 
     <h2>Acceleration Analysis</h2>
@@ -90,21 +89,16 @@
                 <td>6 Hours</td>
                 <td>~7 Minutes</td>
             </tr>
-            <tr>
-                <td><strong>Intersection Complexity</strong></td>
-                <td>O(N) per ray</td>
-                <td>O(log N) per ray</td>
-            </tr>
         </tbody>
     </table>
 
     <h3>Acceleration Usage Flag</h3>
-    <p>As per the project requirements, our engine supports toggling the acceleration structure on or off. To render without the BVH, open the build file and set the boolean flag <code>use_acceleration = false;</code> at the end of the <code>World::build()</code> function.</p>
+    <p>As per the project requirements, our engine supports toggling the acceleration structure on or off. To render without the BVH, open <code>buildBunny.cpp</code> and set the boolean flag <code>use_acceleration = false;</code> at the end of the <code>World::build()</code> function.</p>
 
     <h2>Build Details</h2>
     <p>The following <code>World::build</code> functions generate the images seen on this page:</p>
     <ul>
-        <li><code>buildBunny.cpp</code> - Generates the High-Quality and Low-Quality "Neon Chess" showcase renders.</li>
+        <li><code>buildBunny.cpp</code> - Generates the High-Quality and Low-Quality Neon Bunny Chess showcase renders.</li>
     </ul>
 
     <h2>Team Contributions</h2>
@@ -118,6 +112,7 @@
     <ul>
         <li><a href="http://graphics.stanford.edu/data/3Dscanrep/" target="_blank">The Stanford 3D Scanning Repository (Stanford Bunny .ply)</a></li>
         <li><a href="https://pbr-book.org/" target="_blank">Physically Based Rendering: From Theory to Implementation (Pharr, Jakob, Humphreys)</a></li>
+        <li><a href="https://github.com/hadryansalles/ray-tracing-from-the-ground-up" target="_blank">@hadryansalles/ray-tracing-from-the-ground-up — A C++ implementation of ray tracing algorithms from Kevin Suffern's "Ray Tracing from the Ground Up" book. We used it to structure our files accordingly.</a></li>
     </ul>
 
 </body>
