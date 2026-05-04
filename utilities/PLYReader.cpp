@@ -2,6 +2,7 @@
 #include "../geometry/Triangle.hpp"
 #include "../utilities/Point3D.hpp"
 #include "../utilities/Vector3D.hpp"
+#include "../utilities/Constants.hpp"
 #include "../materials/Material.hpp"
 #include "../world/World.hpp"
 
@@ -9,8 +10,28 @@
 #include <sstream>
 #include <iostream>
 #include <vector>
+#include <cmath>
 
-void PLYReader::load_ply(const std::string& filename, World* world, Material* mat, float scale, const Vector3D& offset) {
+namespace {
+
+Point3D transform_vertex(float x, float y, float z, float scale, const Vector3D& offset, double rotate_y_degrees)
+{
+    const double radians = rotate_y_degrees * PI / 180.0;
+    const double cosine = std::cos(radians);
+    const double sine = std::sin(radians);
+
+    const double rotated_x = x * cosine + z * sine;
+    const double rotated_z = -x * sine + z * cosine;
+
+    return Point3D(
+        static_cast<float>(rotated_x * scale + offset.x),
+        static_cast<float>(y * scale + offset.y),
+        static_cast<float>(rotated_z * scale + offset.z));
+}
+
+}
+
+void PLYReader::load_ply(const std::string& filename, World* world, Material* mat, float scale, const Vector3D& offset, double rotate_y_degrees) {
     std::ifstream file(filename);
     if (!file.is_open()) {
         std::cerr << "Error! Cannot open PLY file: " << filename << "\n";
@@ -47,7 +68,7 @@ void PLYReader::load_ply(const std::string& filename, World* world, Material* ma
         iss >> x >> y >> z;
         
         // Apply scaling and translation
-        Point3D p(x * scale + offset.x, y * scale + offset.y, z * scale + offset.z);
+        Point3D p = transform_vertex(x, y, z, scale, offset, rotate_y_degrees);
         vertices.push_back(p);
     }
 
