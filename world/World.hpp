@@ -15,6 +15,7 @@
 #include "../utilities/RGBColor.hpp"
 
 #include "ViewPlane.hpp"
+#include "../tracers/Tracer.hpp"
 
 class Camera;
 class Geometry;
@@ -22,23 +23,26 @@ class Ray;
 class Sampler;
 class ShadeInfo;
 class Light;
-class Tracer;
 
 class World {
 public:
   ViewPlane vplane;
+  int max_depth;
+  RGBColor ambient_color;
+  float ambient_intensity;
   RGBColor bg_color;
   std::vector<Geometry *> geometry;
   Camera *camera_ptr;
   Sampler *sampler_ptr;
   std::vector<Light *> lights;
-  Tracer* tracer_ptr;
-  Geometry* bvh_ptr;
+  Tracer *tracer_ptr;
+  Geometry *bvh_ptr;
   bool use_acceleration;
 
 public:
   // Constructors.
   World(); // initialize members.
+  World(ViewPlane vp, int md, RGBColor bg, Camera *c_ptr, Sampler *s_ptr, Tracer* t_ptr, Geometry* bvh, bool accel);
 
   // Destructor.
   ~World(); // free memory.
@@ -54,5 +58,5 @@ public:
 
   // Returns appropriate shading information corresponding to intersection of
   // the ray with the scene geometry.
-  ShadeInfo hit_objects(const Ray &ray);
+  ShadeInfo hit_objects(const Ray &ray) const;
 };

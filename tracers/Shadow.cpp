@@ -1,14 +1,21 @@
 #include "Shadow.hpp"
 #include "../world/World.hpp"
 #include "../utilities/ShadeInfo.hpp"
+#include "../utilities/Ray.hpp"
 #include "../materials/Material.hpp"
 #include "../lights/Light.hpp" 
 
 Shadow::Shadow(World* w_ptr) : Tracer(w_ptr) {}
 
-RGBColor Shadow::trace_ray(const Ray& ray) const {
-    // 1. Shoot the primary ray
+RGBColor Shadow::trace_ray(const Ray& ray, int depth) const {
+    // Check recursion depth limit
+    if (depth > world_ptr->max_depth) {
+        return RGBColor(0.0f, 0.0f, 0.0f);  // black
+    }
+    
     ShadeInfo sr = world_ptr->hit_objects(ray);
+    sr.depth = depth;
+    sr.ray = ray;
     
     if (sr.hit) {
         RGBColor final_color(0.0);

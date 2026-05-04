@@ -29,8 +29,29 @@ Reflective::~Reflective() {
 }
 
 RGBColor Reflective::shade(const ShadeInfo& sinfo) const {
-    // Phong shading (ambient + diffuse + specular)
-    return Phong::shade(sinfo);
+    
+    RGBColor L = Phong::shade(sinfo);
+    
+    // reflect ray
+    if (sinfo.depth < sinfo.w->max_depth) 
+    {
+        Vector3D wo = -sinfo.ray.d; // camera
+        Vector3D wi; // will be set by sample_f
+        
+        // sample reflection direction from the BRDF
+        RGBColor fr = reflective_brdf->sample_f(sinfo, wo, wi);
+        
+        // create reflection ray from hit point towards wi
+        Ray reflection_ray(sinfo.hit_point + kEpsilon * sinfo.normal, wi);
+        
+        // recursively trace the reflection ray and get the reflected color
+        RGBColor reflection_color = sinfo.w->tracer_ptr->trace_ray(reflection_ray, sinfo.depth + 1);
+        
+        // add weighted reflection to final color
+        L += fr * reflection_color * (sinfo.normal * wi);
+    }
+    
+    return L;
 }
 
 void Reflective::set_kr(float kr_val) {
