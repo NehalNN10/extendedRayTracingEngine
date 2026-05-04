@@ -5,8 +5,6 @@
 #include "../materials/Material.hpp"
 #include "../lights/Light.hpp" 
 
-Shadow::Shadow(World* w_ptr) : Tracer(w_ptr) {}
-
 RGBColor Shadow::trace_ray(const Ray& ray, int depth) const {
     // Check recursion depth limit
     if (depth > world_ptr->max_depth) {
@@ -18,24 +16,30 @@ RGBColor Shadow::trace_ray(const Ray& ray, int depth) const {
     sr.ray = ray;
     
     if (sr.hit) {
+        // --- FIX 1: INVERTED NORMALS ---
+        // If the normal points in the same direction as the camera ray, flip it outward!
+        if (sr.normal * ray.d > 0.0) {
+            sr.normal = -sr.normal;
+        }
+
         RGBColor final_color(0.0);
 
-        // 2. Loop through all lights your partner created
+        // Loop through all lights
         for (Light* light : world_ptr->lights) {
             
-            // FIX 1: Pass the specific hit_point, not the whole ShadeInfo
             Vector3D wi = light->get_direction(sr.hit_point);
-            
             float ndotwi = sr.normal * wi; 
 
             if (ndotwi > 0.0) {
                 
                 bool in_shadow = false;
-                
-                // Ask your partner's code how far away the light is
                 double d = light->get_distance(sr.hit_point);
 
-                Ray shadow_ray(sr.hit_point + sr.normal * kEpsilon, wi);
+                // --- FIX 2: SHADOW ACNE ---
+                // Replace kEpsilon with a massive offset so it completely clears the 800x scaled triangles
+                float shadow_offset = 2.0f; 
+                Ray shadow_ray(sr.hit_point + sr.normal * shadow_offset, wi);
+                
                 ShadeInfo shadow_sr = world_ptr->hit_objects(shadow_ray);
 
                 // Check if the ray hit something AND that something is closer than the light
@@ -44,7 +48,6 @@ RGBColor Shadow::trace_ray(const Ray& ray, int depth) const {
                 }
 
                 if (!in_shadow) {
-                    // FIX 2: Use get_color() instead of L()
                     final_color += sr.material_ptr->shade(sr) * light->get_color() * ndotwi; 
                 }
             }

@@ -25,6 +25,9 @@
 #include "../acceleration/bvh.hpp"
 
 #include "../world/World.hpp"
+#include "../utilities/PLYReader.hpp"
+
+#include <iostream>
 
 // make a scene with a flat, reflective plane, and 3 spheres on top of it, one matte, one glossy, and one reflective. add a spotlight above the spheres pointing downwards. add toggle for jittered sampling. add toggle for BVH acceleration. add toggle for shadows.
 
@@ -84,6 +87,14 @@ World::build(void)
   Sphere* sphere_ptr3 = new Sphere(Point3D(0, 2, -3), 2); 
   sphere_ptr3->set_material(new Reflective(0.25f, 0.75f, 0.5f, 32.0f, 0.5f, RGBColor(0.0f, 1.0f, 0.0f))); // green
   add_geometry(sphere_ptr3);  
+
+  // metal bunny
+  Reflective* metal = new Reflective();
+  metal->set_cd(RGBColor(0.8, 0.8, 0.8)); // Silver
+  metal->set_kr(0.75); 
+
+  // Call the static function directly. No need to create a PLYReader object.
+  PLYReader::load_ply("models/bunny.ply", this, metal, 100.0f, Vector3D(0, 0, 0));
 
   // sphere 4
     // Sphere* sphere_ptr4 = new Sphere(Point3D(0, 2, 3), 2); 
