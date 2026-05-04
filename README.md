@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Our Custom C++ Raytracer"
+title: My Project Page
 ---
 
 # CS 440 Project 2: Extended Ray Tracing Engine 

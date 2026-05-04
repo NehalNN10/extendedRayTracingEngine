@@ -23,3 +23,8 @@ int ViewPlane::get_vres() const {
 void ViewPlane::set_vres(int v) { 
     vres = v; 
 }
+
+void ViewPlane::set_bounds(const Point3D &top_left, const Point3D &bottom_right) {
+    this->top_left = top_left;
+    this->bottom_right = bottom_right;
+}
