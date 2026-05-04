@@ -14,7 +14,7 @@
             margin: 0 auto;
             padding: 2rem;
         }
-        h1, h2, h3 { color: #ffffff; border-bottom: 1px solid #333; padding-bottom: 0.5rem; }
+        h1, h2, h3 { color: #ffffff; border-bottom: 1px solid #333; padding-bottom: 0.5rem; margin-top: 2rem; }
         h1 { font-size: 2.5rem; color: #4facfe; border-bottom: 2px solid #4facfe; }
         img {
             max-width: 100%;
@@ -22,6 +22,7 @@
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             margin: 1rem 0;
+            border: 1px solid #333;
         }
         .caption { font-size: 0.9rem; color: #888; font-style: italic; margin-bottom: 2rem; }
         table {
@@ -34,7 +35,9 @@
         th { background-color: #2c2c2c; color: #4facfe; }
         a { color: #4facfe; text-decoration: none; }
         a:hover { text-decoration: underline; }
-        .team { background: #1e1e1e; padding: 15px; border-radius: 8px; border-left: 4px solid #4facfe; }
+        .team { background: #1e1e1e; padding: 15px; border-radius: 8px; border-left: 4px solid #4facfe; margin-bottom: 2rem; }
+        .highlight { color: #4facfe; font-weight: bold; }
+        code { background: #2a2a2a; padding: 2px 6px; border-radius: 4px; color: #ff9d00; }
     </style>
 </head>
 <body>
@@ -46,31 +49,32 @@
     </div>
 
     <h2>Scene Overview</h2>
-    <p>Our final showcase is an isometric "Neon Chess" scene featuring 32 high-resolution Stanford Bunny models arranged on an 8x8 chessboard. Because each bunny consists of roughly 69,000 triangles, the scene contains <strong>over 2.2 million primitives</strong>.</p>
-    <p>To capture the scene perfectly at 1920x1080 without aspect-ratio distortion, we implemented a custom "shift lens" camera technique by manipulating the physical Y-bounds of our viewplane. The scene is illuminated by a complex 5-point lighting setup, featuring standard key/fill/rim lights, paired with deep red and blue neon point lights on the X-axis to showcase the engine's handling of specular highlights and glossy reflections.</p>
+    <p>Our final showcase is an isometric "Neon Chess" scene featuring 32 high-resolution Stanford Bunny models arranged on an 8x8 chessboard tile system. Because each bunny consists of roughly 69,000 triangles, the scene contains <span class="highlight">over 2.2 million primitives</span>, easily exceeding the 1-million primitive requirement.</p>
+    <p>To capture the scene perfectly at 1920x1080 without aspect-ratio distortion, we implemented a custom "shift lens" camera technique by manipulating the physical Y-bounds of our viewplane window. The scene is illuminated by a complex 5-point lighting setup: standard key/fill/rim lights, paired with deep red and blue neon point lights on the X-axis to showcase the engine's handling of specular highlights and glossy reflections on different BRDFs.</p>
 
     <h3>High-Quality Render</h3>
-    <!-- Make sure your folder is exactly 'images' and file is exactly 'high_quality_render.png' -->
+    <!-- Ensure your image is uploaded to images/high_quality_render.png -->
     <img src="images/high_quality_render.png" alt="High Quality Neon Chess Render">
-    <div class="caption">Resolution: 1920x1080</div>
+    <div class="caption">Resolution: 1920x1920 | Trace Time: ~7 Minutes (with BVH)</div>
 
     <h3>Low-Quality Render</h3>
+    <!-- Ensure your image is uploaded to images/low_quality_render.png -->
     <img src="images/low_quality_render.png" alt="Low Quality Render">
-    <div class="caption">Resolution: 480x360</div>
+    <div class="caption">Resolution: 480x480 | Trace Time: ~5 minutes (with BVH)</div>
 
     <h2>Implementation Features</h2>
     <ul>
         <li><strong>Homework 5 Base:</strong> Spheres, Planes, Triangles, Basic Cosine Shading.</li>
-        <li><strong>Acceleration:</strong> Bounding Volume Hierarchy (BVH) for optimized spatial partitioning.</li>
+        <li><strong>Acceleration:</strong> Bounding Volume Hierarchy (BVH) for optimized spatial partitioning and intersection culling.</li>
         <li><strong>Materials (BRDFs):</strong> Diffuse (Matte), Specular Mirror (Reflective), and Glossy Plastic (Phong).</li>
         <li><strong>Lighting:</strong> Point lights, Directional lights, and multi-colored lighting arrays.</li>
-        <li><strong>Tracers:</strong> Basic ray casting and secondary Shadow rays with acne-prevention offsets.</li>
-        <li><strong>Sampling:</strong> Jittered sampling for anti-aliasing and Simple sampling for fast rendering.</li>
-        <li><strong>Camera:</strong> Perspective viewing with wide-angle and shift-lens capabilities.</li>
+        <li><strong>Tracers:</strong> Basic ray casting and secondary Shadow rays.</li>
+        <li><strong>Sampling:</strong> Jittered sampling for anti-aliasing and Simple sampling for fast 1x rendering.</li>
+        <li><strong>Camera Features:</strong> Perspective viewing with wide-angle and shift-lens frustum capabilities.</li>
     </ul>
 
     <h2>Acceleration Analysis</h2>
-    <p>We implemented a Bounding Volume Hierarchy (BVH) to speed up rendering. Without spatial partitioning, calculating intersections for 2.2 million triangles per pixel would make rendering practically impossible. Below is the performance comparison for our showcase scene.</p>
+    <p>We implemented a Bounding Volume Hierarchy (BVH) to speed up rendering. Without spatial partitioning, calculating intersections for 2.2 million triangles per pixel makes rendering practically impossible on a standard CPU. Below is the performance comparison for our showcase scene.</p>
 
     <table>
         <thead>
@@ -82,24 +86,25 @@
         </thead>
         <tbody>
             <tr>
-                <td><strong>Render Time</strong></td>
-                <td>Estimated 48+ Hours</td>
-                <td>~2.5 Minutes</td>
+                <td><strong>Render Time (1920x1920)</strong></td>
+                <td>6 Hours</td>
+                <td>~7 Minutes</td>
+            </tr>
+            <tr>
+                <td><strong>Intersection Complexity</strong></td>
+                <td>O(N) per ray</td>
+                <td>O(log N) per ray</td>
             </tr>
         </tbody>
     </table>
 
-    <!-- Uncomment this if you have a BVH comparison image to show -->
-    <!-- 
-    <h3>BVH Visualizer</h3>
-    <img src="images/bvh_comparison.png" alt="BVH Bounding Boxes"> 
-    -->
+    <h3>Acceleration Usage Flag</h3>
+    <p>As per the project requirements, our engine supports toggling the acceleration structure on or off. To render without the BVH, open the build file and set the boolean flag <code>use_acceleration = false;</code> at the end of the <code>World::build()</code> function.</p>
 
     <h2>Build Details</h2>
     <p>The following <code>World::build</code> functions generate the images seen on this page:</p>
     <ul>
-        <li><code>buildBunny.cpp</code> - Generates the High-Quality "Neon Chess" showcase render.</li>
-        <li><code>buildBVHTest.cpp</code> - Generates the Acceleration comparison image.</li>
+        <li><code>buildBunny.cpp</code> - Generates the High-Quality and Low-Quality "Neon Chess" showcase renders.</li>
     </ul>
 
     <h2>Team Contributions</h2>
@@ -109,10 +114,11 @@
         <li><strong>Hania Kashif:</strong> Implemented the Light hierarchy, Anti-aliasing Samplers, and designed the final scene.</li>
     </ul>
 
-    <h2>References</h2>
+    <h2>References & Assets</h2>
     <ul>
-        <li><a href="http://graphics.stanford.edu/data/3Dscanrep/" target="_blank">The Stanford 3D Scanning Repository (Stanford Bunny)</a></li>
+        <li><a href="http://graphics.stanford.edu/data/3Dscanrep/" target="_blank">The Stanford 3D Scanning Repository (Stanford Bunny .ply)</a></li>
         <li><a href="https://pbr-book.org/" target="_blank">Physically Based Rendering: From Theory to Implementation (Pharr, Jakob, Humphreys)</a></li>
+        <li>Google Gemini (AI Tool) - Utilized for debugging segfaults during BVH tree construction, explaining Anti-Aliasing sampling concepts for the presentation, and providing the mathematical approach for the viewplane "shift-lens" camera fix.</li>
     </ul>
 
 </body>
