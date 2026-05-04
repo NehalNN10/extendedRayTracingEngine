@@ -1,8 +1,3 @@
----
-layout: default
-title: "Our Custom C++ Raytracer"
----
-
 # CS 440 Project 2: Extended Ray Tracing Engine 
 
 **Team Members:** Nehal Naeem Haji, Raahim Hashmi, Hania Kashif
