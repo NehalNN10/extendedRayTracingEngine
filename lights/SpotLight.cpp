@@ -1,6 +1,7 @@
 #include "SpotLight.hpp"
 #include "PointLight.hpp"
 
+#include "../utilities/Constants.hpp"
 #include "../utilities/Point3D.hpp"
 #include "../utilities/RGBColor.hpp"
 #include <string>
@@ -58,7 +59,7 @@ double SpotLight::get_attenuation(const Point3D& point) const
     light_dir.normalize();
 
     double dot_product = light_dir * direction_axis;
-    double cutoff_radians = cutoff_angle * M_PI / 180.0;
+    double cutoff_radians = cutoff_angle * PI / 180.0;
     double cutoff_cosine = std::cos(cutoff_radians);
 
     if (dot_product < cutoff_cosine) 
