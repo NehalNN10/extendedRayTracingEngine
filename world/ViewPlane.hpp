@@ -33,6 +33,7 @@ public:
   void set_hres(int);
   int get_vres() const;
   void set_vres(int);
+  void set_bounds(const Point3D &top_left, const Point3D &bottom_right);
   
   // Destructor.
   ~ViewPlane() = default;
