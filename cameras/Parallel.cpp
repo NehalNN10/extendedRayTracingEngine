@@ -32,3 +32,7 @@ Parallel& Parallel::operator=(const Parallel &other) {
 Vector3D Parallel::get_direction(const Point3D &p) const {
     return dir;
 }
+
+Point3D Parallel::get_origin(const Point3D &p) const {
+    return p;
+}

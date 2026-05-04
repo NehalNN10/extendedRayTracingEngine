@@ -32,11 +32,13 @@ Point3D transform_vertex(float x, float y, float z, float scale, const Vector3D&
 }
 
 void PLYReader::load_ply(const std::string& filename, World* world, Material* mat, float scale, const Vector3D& offset, double rotate_y_degrees) {
+    std::cerr << "Attempting to load: " << filename << "\n";
     std::ifstream file(filename);
     if (!file.is_open()) {
         std::cerr << "Error! Cannot open PLY file: " << filename << "\n";
         return;
     }
+    std::cerr << "Successfully opened: " << filename << "\n";
 
     std::string line;
     int num_vertices = 0;

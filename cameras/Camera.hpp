@@ -7,6 +7,8 @@
    Courtesy Kevin Suffern.
 */
 
+#include "../utilities/Point3D.hpp"
+
 class Point3D;
 class Vector3D;
 
@@ -24,4 +26,6 @@ public:
 
   // Get direction of projection for a point.
   virtual Vector3D get_direction(const Point3D &p) const = 0;
+
+  virtual Point3D get_origin(const Point3D &p) const = 0;
 };

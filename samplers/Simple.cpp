@@ -42,9 +42,10 @@ std::vector<Ray> Simple::get_rays(int px, int py) const {
     pt.y = viewplane_ptr->top_left.y - pixel_size_y * (py + 0.5f); 
     pt.z = viewplane_ptr->top_left.z;
 
+    Point3D origin = camera_ptr->get_origin(pt);
     Vector3D dir = camera_ptr->get_direction(pt);
-    Ray ray(pt, dir);
-    
+    Ray ray(origin, dir);
+
     rays.push_back(ray);
     return rays;
 }

@@ -37,7 +37,7 @@ World::build(void)
   // toggles
   use_acceleration = true;
   bool use_jittering = true;
-  int n = 10;
+  int n = 4;
   bool use_shadows = true;
 
   // View plane  .
@@ -88,13 +88,13 @@ World::build(void)
   sphere_ptr3->set_material(new Reflective(0.25f, 0.75f, 0.5f, 32.0f, 0.5f, RGBColor(0.0f, 1.0f, 0.0f))); // green
   add_geometry(sphere_ptr3);  
 
-  // metal bunny
-  Reflective* metal = new Reflective();
-  metal->set_cd(RGBColor(0.8, 0.8, 0.8)); // Silver
-  metal->set_kr(0.75); 
+//   // metal bunny
+//   Reflective* metal = new Reflective();
+//   metal->set_cd(RGBColor(0.8, 0.8, 0.8)); // Silver
+//   metal->set_kr(0.75); 
 
-  // Call the static function directly. No need to create a PLYReader object.
-  PLYReader::load_ply("models/bunny.ply", this, metal, 100.0f, Vector3D(0, 0, 0));
+//   // Call the static function directly. No need to create a PLYReader object.
+//   PLYReader::load_ply("models/bunny.ply", this, metal, 100.0f, Vector3D(0, 0, 0));
 
   // sphere 4
     // Sphere* sphere_ptr4 = new Sphere(Point3D(0, 2, 3), 2); 
@@ -102,12 +102,12 @@ World::build(void)
     // add_geometry(sphere_ptr4);
 
   // light
-  Light* spotlight_ptr = new SpotLight(Point3D(0, 5, 0), RGBColor(1.0f), 1.0, 0.0, 0.0, Vector3D(0, -1, 0), 60.0, 5.0); // white spotlight pointing downwards
-  spotlight_ptr->set_intensity(3.0f);
-  add_light(spotlight_ptr);
-//   Light* point_light_ptr = new PointLight(Point3D(0, 5, 0), RGBColor(1.0f), 1.0, 0.0, 0.0); // white point light
-//   point_light_ptr->set_intensity(3.0f);
-//   add_light(point_light_ptr);
+//   Light* spotlight_ptr = new SpotLight(Point3D(0, 5, 0), RGBColor(1.0f), 1.0, 0.0, 0.0, Vector3D(0, -1, 0), 60.0, 5.0); // white spotlight pointing downwards
+//   spotlight_ptr->set_intensity(3.0f);
+//   add_light(spotlight_ptr);
+  Light* point_light_ptr = new PointLight(Point3D(0, 5, 0), RGBColor(1.0f), 1.0, 0.0, 0.0); // white point light
+  point_light_ptr->set_intensity(3.0f);
+  add_light(point_light_ptr);
 
   // plane
   Plane* plane_ptr = new Plane(Point3D(0,-0.5,0), Vector3D(0, 10, 2)); 

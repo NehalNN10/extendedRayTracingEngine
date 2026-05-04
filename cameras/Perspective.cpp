@@ -28,3 +28,7 @@ Vector3D Perspective::get_direction(const Point3D &p) const {
     direction.normalize();
     return direction;
 }
+
+Point3D Perspective::get_origin(const Point3D &p) const {
+    return pos;
+}

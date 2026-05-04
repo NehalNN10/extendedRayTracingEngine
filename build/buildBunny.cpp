@@ -15,11 +15,12 @@
 #include <cstdlib>
 
 void World::build(void) {
-    // 1. FULL HD RESOLUTION & ASPECT RATIO
-    vplane.set_hres(1920);
-    vplane.set_vres(1080);
-    vplane.set_bounds(Point3D(-1920, 280, 0), Point3D(1920, -800, 0));
-    bg_color = RGBColor(0.02, 0.02, 0.02);
+    // resolution
+    int hres = 1920;
+    int vres = 1080;
+    vplane.set_hres(hres);
+    vplane.set_vres(vres);
+    vplane.set_bounds(Point3D(-400, 780, 0), Point3D(400, -20, 0));
 
     // 2. ELEVATED CAMERA ANGLE
     // Raised Y from 400 to 800, and pushed Z back to 1800 to keep the whole board in frame

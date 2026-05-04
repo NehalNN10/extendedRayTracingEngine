@@ -13,7 +13,7 @@ This file declares the Light abstract class from which other concrete light clas
 class Light 
 {
 protected:
-    RGBColor color; // color of the light
+  RGBColor color; // color of the light
   float intensity; // radiance scale factor
 
 public:

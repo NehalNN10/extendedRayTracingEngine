@@ -13,6 +13,9 @@
 
 int main(int argc, char **argv) {
   World world;
+  // --- START THE CLOCK ---
+  auto start_time = std::chrono::high_resolution_clock::now();
+  
   world.build();
 
   Sampler *sampler = world.sampler_ptr;
@@ -20,11 +23,7 @@ int main(int argc, char **argv) {
   Image image(viewplane);
 
   std::vector<Ray> rays;
-
-  std::cout << "Building BVH and starting render...\n";
   
-  // --- START THE CLOCK ---
-  auto start_time = std::chrono::high_resolution_clock::now();
 
   for (int x = 0; x < viewplane.hres; x++) {   // across.
     for (int y = 0; y < viewplane.vres; y++) { // down.
