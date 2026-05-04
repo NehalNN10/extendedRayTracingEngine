@@ -62,6 +62,20 @@
     <img src="images/low_quality_render.png" alt="Low Quality Render">
     <div class="caption">Resolution: 480x480 | Trace Time: ~5 minutes (with BVH)</div>
 
+    <h3>High-Resolution Sampling Comparison</h3>
+    <p>Compare the standard high-resolution render against the jittered sampling approach. Jittered sampling reduces aliasing artifacts through randomized pixel offset patterns, resulting in smoother edges and improved anti-aliasing quality.</p>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0;">
+        <div>
+            <img src="images/high_quality_render.png" alt="High Quality Standard Render">
+            <div class="caption">Standard Render | Resolution: 1920x1920 | Trace Time: ~7 Minutes</div>
+        </div>
+        <div>
+            <img src="images/scene_jitter.png" alt="Jittered Sampling Render">
+            <div class="caption">Jittered Sampling | Resolution: 1920x1920 | Demonstrates anti-aliasing benefits | Trace Time: 37 Minutes</div>
+        </div>
+    </div>
+
     <h2>Implementation Features</h2>
     <ul>
         <li><strong>Homework 5 Base:</strong> Spheres, Planes, Triangles, Basic Cosine Shading.</li>
