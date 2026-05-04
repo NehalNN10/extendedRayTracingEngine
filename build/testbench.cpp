@@ -28,8 +28,6 @@
 
 #include <iostream>
 
-// make a scene with a flat, reflective plane, and 3 spheres on top of it, one matte, one glossy, and one reflective. add a spotlight above the spheres pointing downwards. add toggle for jittered sampling. add toggle for BVH acceleration. add toggle for shadows.
-
 void
 World::build(void) 
 {
@@ -38,6 +36,7 @@ World::build(void)
   bool use_jittering = true;
   int n = 4;
   bool use_shadows = true;
+  bool use_spotlight = true;
 
   // View plane  .
   vplane.top_left.x = -10;
@@ -88,13 +87,18 @@ World::build(void)
   add_geometry(sphere_ptr3);  
 
   // light
-//   Light* spotlight_ptr = new SpotLight(Point3D(0, 5, 0), RGBColor(1.0f), 1.0, 0.0, 0.0, Vector3D(0, -1, 0), 60.0, 5.0); // white spotlight pointing downwards
-//   spotlight_ptr->set_intensity(3.0f);
-//   add_light(spotlight_ptr);
-
-  Light* point_light_ptr = new PointLight(Point3D(0, 5, 0), RGBColor(1.0f), 1.0, 0.0, 0.0); // white point light
-  point_light_ptr->set_intensity(3.0f);
-  add_light(point_light_ptr);
+  if (use_spotlight) 
+  {
+      Light* spotlight_ptr = new SpotLight(Point3D(0, 5, 0), RGBColor(1.0f), 1.0, 0.0, 0.0, Vector3D(0, -1, 0), 60.0, 5.0); // white spotlight pointing downwards
+      spotlight_ptr->set_intensity(3.0f);
+      add_light(spotlight_ptr);
+  } 
+  else 
+  {
+      Light* point_light_ptr = new PointLight(Point3D(0, 5, 0), RGBColor(1.0f), 1.0, 0.0, 0.0); // white point light
+      point_light_ptr->set_intensity(3.0f);
+      add_light(point_light_ptr);
+  }
 
   // plane
   Plane* plane_ptr = new Plane(Point3D(0,-0.5,0), Vector3D(0, 10, 2)); 

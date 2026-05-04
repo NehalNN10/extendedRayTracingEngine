@@ -99,7 +99,7 @@
         <li><strong>Homework 5 Base:</strong> Spheres, Planes, Triangles, Basic Cosine Shading.</li>
         <li><strong>Acceleration:</strong> Bounding Volume Hierarchy (BVH) for optimized spatial partitioning and intersection culling.</li>
         <li><strong>Materials (BRDFs):</strong> Diffuse (Matte), Specular Mirror (Reflective), and Glossy Plastic (Phong).</li>
-        <li><strong>Lighting:</strong> Point lights, Spotlights, Directional lights, and multi-colored lighting arrays.</li>
+        <li><strong>Lighting:</strong> Point lights and Spotlights.</li>
         <li><strong>Tracers:</strong> Basic ray casting and secondary Shadow rays.</li>
         <li><strong>Sampling:</strong> Jittered sampling for anti-aliasing and Simple sampling for fast rendering.</li>
     </ul>
@@ -117,14 +117,14 @@
         </thead>
         <tbody>
             <tr>
-                <td><strong>Render Time (1920x1920)</strong></td>
-                <td>TBD</td>
-                <td>~7 Minutes</td>
-            </tr>
-            <tr>
                 <td><strong>Render Time (20x20)</strong></td>
                 <td>~10 minutes</td>
                 <td>79 seconds</td>
+            </tr>
+            <tr>
+                <td><strong>Render Time (1920x1920)</strong></td>
+                <td>est. 70 minutes (assuming similar speedup as 20x20)</td>
+                <td>~7 Minutes</td>
             </tr>
         </tbody>
     </table>
@@ -136,7 +136,7 @@
     <p>The following <code>World::build</code> functions generate the images seen on this page:</p>
     <ul>
         <li><code>buildBunny.cpp</code> - Generates the High-Quality and Low-Quality Neon Bunny Chess showcase renders, as well as the Jittered Sampling comparison.</li>
-        <li><code>buildMvp.cpp</code> - Generates the feature demonstration renders (materials, shadows, spotlights).</li>
+        <li><code>testbench.cpp</code> - Generates the feature demonstration renders (materials, shadows, spotlights).</li>
     </ul>
 
     <h2>Team Contributions</h2>

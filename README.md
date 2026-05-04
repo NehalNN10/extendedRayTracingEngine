@@ -16,22 +16,35 @@ Please visit our **[Project Website](https://nehalnn10.github.io/extendedRayTrac
 ---
 
 ## How to Build and Run
-This project is built using a standard C++ Makefile. To compile and run the engine from your terminal:
+This project is built using a standard C++ Makefile (on Windows). To compile and run the engine from your terminal, switch to the project directory and execute the following commands:
 
 1.  **Compile the code:**
     ```bash
-    make
+    mingw32-make
     ```
 2.  **Run the executable:**
     ```bash
-    ./raytracer
+    mingw32-make run
     ```
-    *(Note: The exact name of the executable may vary depending on your Makefile output).*
+
+Note that if you want to build and run a specific scene, add ```BUILD=build/<build_file>.cpp``` to the make and run command. For example:
+```bash
+mingw32-make BUILD=build/buildBunny.cpp
+```
+and 
+```bash
+mingw32-make run BUILD=build/buildBunny.cpp
+```
+
+If you are on a different platform or using a different build system, you would need to run a compile command that includes all the necessary source files and run the resulting executable. For example:
+```bash
+g++ -g raytracer.cpp world/*.cpp utilities/*.cpp geometry/*.cpp acceleration/*.cpp lights/*.cpp tracers/*.cpp cameras/*.cpp image/*.cpp samplers/*.cpp materials/BRDF/*.cpp materials/*.cpp build/testbench.cpp -o raytracer.exe
+```
 
 ### Changing the Active Scene
 The scenes are generated via the `World::build()` function. To change which scene renders, ensure the desired build file is included in your compilation sequence.
 *   `buildBunny.cpp` - Generates the 32-piece "Neon Chess" showcase.
-*   `buildBVHTest.cpp` - Generates the Acceleration comparison scene.
+*   `testbench.cpp` - Used for testing individual features and materials during development (contains flags at the top to toggle features on/off).
 
 ---
 
