@@ -36,7 +36,7 @@ The scenes are generated via the `World::build()` function. To change which scen
 ---
 
 ## Testing the Acceleration Structure (BVH)
-As per the project requirements, the Bounding Volume Hierarchy (BVH) can be toggled on or off[cite: 3].
+As per the project requirements, the Bounding Volume Hierarchy (BVH) can be toggled on or off.
 
 To render using Brute Force (without acceleration), open `buildBunny.cpp` and modify the flag at the very bottom of the `World::build(void)` function:
 ```cpp

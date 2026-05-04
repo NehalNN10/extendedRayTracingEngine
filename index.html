@@ -74,12 +74,32 @@
         </div>
     </div>
 
+    <h2>Feature Demonstrations</h2>
+    <p>The following renders highlight specific isolated features implemented within our ray tracing engine.</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+        <div>
+            <!-- Ensure you save your first image as 'demo_materials.png' in the images folder -->
+            <img src="images/demo_materials.png" alt="Materials Demonstration">
+            <div class="caption">Demonstrates point lighting and different materials (from left to right: matte, reflective, phong).</div>
+        </div>
+        <div>
+            <!-- Ensure you save your second image as 'demo_shadows.png' in the images folder -->
+            <img src="images/demo_shadows.png" alt="Shadow Tracer Demonstration">
+            <div class="caption">Demonstrates shadow tracer.</div>
+        </div>
+        <div>
+            <!-- Ensure you save your third image as 'demo_spotlight.png' in the images folder -->
+            <img src="images/demo_spotlight.png" alt="Spotlight Demonstration">
+            <div class="caption">Demonstrates spotlight.</div>
+        </div>
+    </div>
+
     <h2>Implementation Features</h2>
     <ul>
         <li><strong>Homework 5 Base:</strong> Spheres, Planes, Triangles, Basic Cosine Shading.</li>
         <li><strong>Acceleration:</strong> Bounding Volume Hierarchy (BVH) for optimized spatial partitioning and intersection culling.</li>
         <li><strong>Materials (BRDFs):</strong> Diffuse (Matte), Specular Mirror (Reflective), and Glossy Plastic (Phong).</li>
-        <li><strong>Lighting:</strong> Point lights, Directional lights, and multi-colored lighting arrays.</li>
+        <li><strong>Lighting:</strong> Point lights, Spotlights, Directional lights, and multi-colored lighting arrays.</li>
         <li><strong>Tracers:</strong> Basic ray casting and secondary Shadow rays.</li>
         <li><strong>Sampling:</strong> Jittered sampling for anti-aliasing and Simple sampling for fast rendering.</li>
     </ul>
@@ -115,13 +135,14 @@
     <h2>Build Details</h2>
     <p>The following <code>World::build</code> functions generate the images seen on this page:</p>
     <ul>
-        <li><code>buildBunny.cpp</code> - Generates the High-Quality and Low-Quality Neon Bunny Chess showcase renders.</li>
+        <li><code>buildBunny.cpp</code> - Generates the High-Quality and Low-Quality Neon Bunny Chess showcase renders, as well as the Jittered Sampling comparison.</li>
+        <li><code>buildMvp.cpp</code> - Generates the feature demonstration renders (materials, shadows, spotlights).</li>
     </ul>
 
     <h2>Team Contributions</h2>
     <ul>
         <li><strong>Nehal Naeem Haji:</strong> Implemented the BVH Acceleration structure and Scene Testing and Website Development.</li>
-        <li><strong>Raahim Hashmi:</strong> Implemented the Light hierarchy, Anti-aliasing Samplers, and designed the final scene and Basic/Shadow Tracers..</li>
+        <li><strong>Raahim Hashmi:</strong> Implemented the Light hierarchy, Anti-aliasing Samplers, and designed the final scene and Basic/Shadow Tracers.</li>
         <li><strong>Hania Kashif:</strong> Implemented the BRDFs and Material hierarchy.</li>
     </ul>
 
@@ -129,9 +150,8 @@
     <ul>
         <li><a href="http://graphics.stanford.edu/data/3Dscanrep/" target="_blank">The Stanford 3D Scanning Repository (Stanford Bunny .ply)</a></li>
         <li><a href="https://github.com/hadryansalles/ray-tracing-from-the-ground-up" target="_blank">@hadryansalles/ray-tracing-from-the-ground-up — A C++ implementation of ray tracing algorithms from Kevin Suffern's "Ray Tracing from the Ground Up" book. We used it to structure our files accordingly.</a></li>
-        <li>
-            GitHub Copilot was used for static analysis, debugging, and generating parser code.
-        </li>
+        <li>GitHub Copilot was used for static analysis, debugging, and generating parser code.</li>
+        <li>Google Gemini (AI Tool) was used for structural guidance, debugging, and web template formatting.</li>
     </ul>
 
 </body>
