@@ -17,22 +17,17 @@ protected:
   float intensity; // radiance scale factor
 
 public:
-  // Constructors.
   Light(); 
   Light(const RGBColor& col);
   Light(const RGBColor& col, float intensity_val);
 
-  // Copy constructor and assignment operator.
   Light(const Light &object) = default;
   Light &operator=(const Light &rhs) = default;
 
-  // Destructor.
   virtual ~Light() = default;
   
-  // String representation.
   virtual std::string to_string() const = 0;
 
-  // Get/setters 
   RGBColor get_color() const;
   void set_color(const RGBColor& col);
   float get_intensity() const;

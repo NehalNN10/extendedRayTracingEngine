@@ -20,7 +20,8 @@ public:
     
     virtual ~Phong();
 
-    virtual RGBColor shade(const ShadeInfo& sinfo) const override;
+    virtual RGBColor f(const ShadeInfo& sinfo, const Vector3D& wo, const Vector3D& wi) const override;
+    virtual RGBColor rho(const ShadeInfo& sinfo, const Vector3D& wo) const override;
 
     void set_ka(float ka_val);
     void set_kd(float kd_val);

@@ -1,7 +1,5 @@
 #include <iostream>
-#include <chrono> // <-- ADDED: The standard time library
-
-#include "materials/Cosine.hpp"
+#include <chrono>
 #include "samplers/Sampler.hpp"
 #include "image/Image.hpp"
 #include "utilities/RGBColor.hpp"
@@ -13,7 +11,7 @@
 
 int main(int argc, char **argv) {
   World world;
-  // --- START THE CLOCK ---
+
   auto start_time = std::chrono::high_resolution_clock::now();
   
   world.build();
@@ -24,7 +22,6 @@ int main(int argc, char **argv) {
 
   std::vector<Ray> rays;
   
-
   for (int x = 0; x < viewplane.hres; x++) {   // across.
     for (int y = 0; y < viewplane.vres; y++) { // down.
       RGBColor pixel_color(0);
@@ -39,7 +36,6 @@ int main(int argc, char **argv) {
     }
   }
 
-  // --- STOP THE CLOCK ---
   auto end_time = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> elapsed = end_time - start_time;
 

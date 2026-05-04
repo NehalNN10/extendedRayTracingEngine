@@ -7,6 +7,7 @@
 #include "../materials/Phong.hpp"   
 #include "../samplers/Simple.hpp"
 #include "../samplers/Jittered.hpp"
+#include "../tracers/Basic.hpp"   
 #include "../tracers/Shadow.hpp"
 #include "../tracers/Basic.hpp"
 #include "../lights/PointLight.hpp"
@@ -34,8 +35,8 @@ void World::build(void) {
     // sampler_ptr = new Jittered(camera_ptr, &vplane, 6);
     tracer_ptr = new Basic(this); 
 
-    // lighting
-    add_light(new SpotLight(Point3D(800, 1500, 800), white, 1.0, 0.0, 0.0, Vector3D(0, -1, 0), 30.0, 1.0));
+    // lights around the board
+    add_light(new PointLight(Point3D(800, 1500, 800), white, 1.0, 0.0, 0.0));
     add_light(new PointLight(Point3D(-800, 800, 500), RGBColor(0.4), 1.0, 0.0, 0.0));
     add_light(new PointLight(Point3D(0, 2000, -500), RGBColor(0.5), 1.0, 0.0, 0.0));
     
@@ -44,7 +45,7 @@ void World::build(void) {
     add_light(new PointLight(Point3D(1500, 400, -200), RGBColor(0.1, 0.1, 1.0), 1.0, 0.0, 0.0));
 
     // Reflective* mat_bronze = new Reflective(0.25f, 0.50f, 0.50f, 50.0f, 0.40f, RGBColor(0.8, 0.6, 0.2));
-    Reflective* mat_silver = new Reflective(0.25f, 0.50f, 0.60f, 60.0f, 0.50f, RGBColor(0.8, 0.8, 0.8));
+    Reflective* mat_silver = new Reflective(0.25f, 0.75f, 0.5f, 32.0f, 0.5f, RGBColor(0.8, 0.8, 0.8));
     
     Matte* mat_blue = new Matte(); mat_blue->set_cd(RGBColor(0.2, 0.4, 0.8));
     Matte* mat_pink = new Matte(); mat_pink->set_cd(RGBColor(0.9, 0.3, 0.6)); 
@@ -53,6 +54,7 @@ void World::build(void) {
     Phong* mat_green = new Phong(0.25f, 0.60f, 0.50f, 32.0f, RGBColor(0.1, 0.8, 0.2));
     
     Material* bunny_mats[4] = {mat_silver, mat_blue, mat_pink, mat_green};
+    int num_mats = sizeof(bunny_mats) / sizeof(bunny_mats[0]);
 
     // make chessboard tiles with matte
     Matte* tile_light = new Matte(); tile_light->set_cd(RGBColor(0.9, 0.9, 0.9));
@@ -89,7 +91,7 @@ void World::build(void) {
                 float bx = x0 + (tile_size / 2.0f);
                 float bz = z0 + (tile_size / 2.0f);
                 
-                int rand_idx = rand() % 4; 
+                int rand_idx = rand() % num_mats; 
                 PLYReader::load_ply("models/bunny.ply", this, bunny_mats[rand_idx], 800.0f, Vector3D(bx, y, bz));
             }
         }

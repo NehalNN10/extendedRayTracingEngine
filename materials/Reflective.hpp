@@ -17,8 +17,8 @@ public:
     
     virtual ~Reflective();
 
-    // ambient + diffuse + specular + reflected rays
-    virtual RGBColor shade(const ShadeInfo& sinfo) const override;
+    virtual bool is_specular() const override;
+    virtual RGBColor sample_specular(const ShadeInfo& sinfo, const Vector3D& wo, Vector3D& wi) const override;
 
     void set_kr(float kr_val);
     void set_cr(const RGBColor& color);

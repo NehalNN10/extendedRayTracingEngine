@@ -7,8 +7,10 @@
    Courtesy Kevin Suffern.
 */
 
-class RGBColor;
+#include "../utilities/RGBColor.hpp"
+
 class ShadeInfo;
+class Vector3D;
 
 class Material {
 public:
@@ -22,6 +24,13 @@ public:
   // Desctructor.
   virtual ~Material() = default;
 
-  // Get color.
-  virtual RGBColor shade(const ShadeInfo &sinfo) const = 0;
+  // BRDF evaluation used by tracers for direct lighting.
+  virtual RGBColor f(const ShadeInfo &sinfo, const Vector3D &wo, const Vector3D &wi) const = 0;
+  virtual RGBColor rho(const ShadeInfo &sinfo, const Vector3D &wo) const = 0;
+
+  // specular component for recursion
+  virtual bool is_specular() const { return false; }
+  virtual RGBColor sample_specular(const ShadeInfo &sinfo, const Vector3D &wo, Vector3D &wi) const {
+    return RGBColor(0.0f);
+  }
 };

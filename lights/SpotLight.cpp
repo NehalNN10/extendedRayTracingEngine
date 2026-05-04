@@ -62,6 +62,7 @@ double SpotLight::get_attenuation(const Point3D& point) const
     double cutoff_radians = cutoff_angle * PI / 180.0;
     double cutoff_cosine = std::cos(cutoff_radians);
 
+    // less here means the angle between the light direction and the spotlight axis is greater than the cutoff angle
     if (dot_product < cutoff_cosine) 
     {
         return 0.0; // outside the spotlight cone
