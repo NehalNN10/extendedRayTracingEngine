@@ -1,17 +1,14 @@
 #include <iostream>
+#include <chrono> // <-- ADDED: The standard time library
 
 #include "materials/Cosine.hpp"
-
 #include "samplers/Sampler.hpp"
-
 #include "image/Image.hpp"
 #include "utilities/RGBColor.hpp"
 #include "utilities/Ray.hpp"
 #include "utilities/ShadeInfo.hpp"
-
 #include "world/World.hpp"
 #include "world/ViewPlane.hpp"
-
 #include "tracers/Tracer.hpp"
 
 int main(int argc, char **argv) {
@@ -23,10 +20,14 @@ int main(int argc, char **argv) {
   Image image(viewplane);
 
   std::vector<Ray> rays;
+
+  std::cout << "Building BVH and starting render...\n";
+  
+  // --- START THE CLOCK ---
+  auto start_time = std::chrono::high_resolution_clock::now();
+
   for (int x = 0; x < viewplane.hres; x++) {   // across.
     for (int y = 0; y < viewplane.vres; y++) { // down.
-      // Get rays for the pixel from the sampler. The pixel color is the
-      // weighted sum of the shades for each ray.
       RGBColor pixel_color(0);
       rays = sampler->get_rays(x, y);
       for (const auto &ray : rays) {
@@ -36,12 +37,17 @@ int main(int argc, char **argv) {
       }
       // Save color to image.
       image.set_pixel(x, y, pixel_color);
-      // std::cout << pixel_color << "\n";
     }
   }
+
+  // --- STOP THE CLOCK ---
+  auto end_time = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> elapsed = end_time - start_time;
+
+  std::cout << "Render Time: " << elapsed.count() << " seconds\n";
+
   // Write image to file.
   image.write_png("scene.png");
-
   std::cout << "Wrote image.\n";
   
   return 0;
